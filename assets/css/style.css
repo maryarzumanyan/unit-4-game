@@ -1,0 +1,58 @@
+body{
+    background-image: url(../images/backgr2.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    color: black;
+}
+.row{
+    overflow: auto;
+    padding-top: 10px;
+}
+.card{
+    max-width: 12rem;
+}
+.card-header{
+    padding: 0px; 
+    text-align: center; 
+    border-bottom: 0px;
+}
+.card-body{
+    padding-top: 0px; 
+    padding-bottom: 0px;
+}
+
+.card-footer{
+    padding: 0px; 
+    text-align: center; 
+    border-top: 0px;
+}
+
+.col-md-6{
+    border: dashed beige;
+    padding: 20px;
+    text-align: center;
+    height: 500px;
+}
+
+.btn-character{
+    background-size: 100%;
+    width: 153px;
+    height: 111px;
+}
+
+#btn-darth-vader{
+    background-image: url(../images/DarthVader.jpg);
+}
+#btn-kenobi{
+    background-image: url(../images/Kenobi.jpg);
+}
+#btn-princess-leia{
+    background-image: url(../images/PrincessLeia.jpg);
+}
+#btn-yoda{
+    background-image: url(../images/Yoda.jpg);
+}
+
+p{
+    color: yellowgreen;
+}
