@@ -20,30 +20,30 @@
                 <div class="card border-success">
                     <div class="card-header">Darth Vader</div>
                         <div class="card-body">
-                            <button id="btn-darth-vader" class="btn-character"></button>
+                            <button id="btn-darth-vader" name="Darth Vader" class="btn-character"></button>
                         </div>
                     <div id="hp-darth-vader" class="card-footer">Footer</div>
                 </div>
                 <div id="card-kenobi" class="card border-success">
                         <div class="card-header">Kenobi</div>
                             <div class="card-body">
-                                <button id="btn-kenobi" class="btn-character"></button>
+                                <button id="btn-kenobi" name="Kenobi" class="btn-character"></button>
                             </div>
                         <div id="hp-kenobi" class="card-footer">Footer</div>
                 </div>
                 <div id="card-princess-leia" class="card border-success">
                         <div class="card-header">Princess Leia</div>
                             <div class="card-body">
-                                <button id="btn-princess-leia" class="btn-character"></button>
+                                <button id="btn-princess-leia" name="Princess Leia" class="btn-character"></button>
                             </div>
                         <div id="hp-princess-leia" class="card-footer">Footer</div>
                 </div>
                 <div id="card-yoda" class="card border-success">
                         <div class="card-header">Yoda</div>
                             <div class="card-body">
-                                <button id="btn-yoda" class="btn-character"></button>
+                                <button id="btn-yoda" name="Yoda" class="btn-character"></button>
                             </div>
-                        <div id="hp=yoda" class="card-footer">Footer</div>
+                        <div id="hp-yoda" class="card-footer">Footer</div>
                 </div>
           </div>
 
@@ -78,8 +78,53 @@
 
       <script type="text/javascript">
 
+ //        $("#hp-darth-vader, #hp-kenobi, #hp-princess-leia, #hp-yoda").empty();
+ //        $("#hp-darth-vader").text($(darthVader).hp());
+
+        function updateUi() {
+            $("#hp-darth-vader").text(game.findCharacter("Darth Vader").getHp());
+            $("#hp-kenobi").text(game.findCharacter("Kenobi").getHp());
+            $("#hp-princess-leia").text(game.findCharacter("Princess Leia").getHp());
+            $("#hp-yoda").text(game.findCharacter("Yoda").getHp());
+        }
+
+        function selectMyCharacter(button) {
+            button.parent().parent().appendTo("#row-your-character");
+
+            if (button.attr('name') != "Darth Vader") {
+                $("#hp-darth-vader").parent().parent().appendTo("#row-enemies");
+            }
+
+            if (button.attr('name') != "Kenobi") {
+                $("#hp-kenobi").parent().parent().appendTo("#row-enemies");
+            }
+
+            if (button.attr('name') != "Princess Leia") {
+                $("#hp-princess-leia").parent().parent().appendTo("#row-enemies");
+            }
+
+            if (button.attr('name') != "Yoda") {
+                $("#hp-yoda").parent().parent().appendTo("#row-enemies");
+            }
+
+            var myCharacter = game.findCharacter(button.attr('name'));
+            game.selectMyCharacter(myCharacter);
+        }
+
+        function selectDefender(button) {
+            button.parent().parent().appendTo("#row-defender");
+            var defender = game.findCharacter(button.attr('name'));
+            game.selectDefender(defender);
+        }
+
          $(".btn-character").on("click", function() {
-            $(this).parent().parent().appendTo("#row-your-character");
+            if (game.myCharacter === null) {
+                selectMyCharacter($(this));
+            } else if ($(this).attr('name') != game.myCharacter.name) {
+                selectDefender($(this));
+            }
+
+            updateUi();
          })
 
 
