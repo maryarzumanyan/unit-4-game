@@ -17,7 +17,7 @@
           </div>
 
           <div class="row">
-                <div class="card border-success">
+                <div id="card-darth-vader" class="card border-success">
                     <div class="card-header">Darth Vader</div>
                     <div class="card-body">
                         <button id="btn-darth-vader" name="Darth Vader" class="btn-character"></button>
@@ -95,18 +95,22 @@
 
             if (button.attr('name') != "Darth Vader") {
                 $("#btn-darth-vader").parent().parent().appendTo("#row-enemies");
+                $("#btn-darth-vader").parent().parent().css("background-color", "brown");
             }
 
             if (button.attr('name') != "Kenobi") {
                 $("#btn-kenobi").parent().parent().appendTo("#row-enemies");
+                $("#btn-kenobi").parent().parent().css("background-color", "brown");
             }
 
             if (button.attr('name') != "Princess Leia") {
                 $("#btn-princess-leia").parent().parent().appendTo("#row-enemies");
+                $("#btn-princess-leia").parent().parent().css("background-color", "brown");
             }
 
             if (button.attr('name') != "Yoda") {
                 $("#btn-yoda").parent().parent().appendTo("#row-enemies");
+                $("#btn-yoda").parent().parent().css("background-color", "brown");
             }
 
             var myCharacter = game.findCharacter(button.attr('name'));
@@ -114,6 +118,8 @@
         }
 
         function selectDefender(button) {
+            button.parent().parent().css("background-color", "black");
+            button.parent().parent().css("color", "white");
             button.parent().parent().appendTo("#row-defender");
             var defender = game.findCharacter(button.attr('name'));
             game.setDefender(defender);

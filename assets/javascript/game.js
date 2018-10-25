@@ -9,16 +9,14 @@ function Character(name, hp, attackPower){
      }
 
      this.attack = function(defender) {
-        this.hp -= defender.attackPower;
         defender.hp -= this.attackPower;
+        if(defender.isAlive()){
+            this.hp -= defender.attackPower;
+        }
         if (!this.isAlive()) {
             return;
         }
-
         this.attackPower += this.initialPower;
-        if (!defender.isAlive()) {
-            this.attackPower += this.initialPower;
-        } 
      }
 
      this.getHp = function() {
