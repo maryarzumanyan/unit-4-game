@@ -2,6 +2,7 @@ function Character(name, hp, attackPower){
      this.name = name;
      this.hp = hp;
      this.attackPower = attackPower;
+     this.initialPower = attackPower;
 
      this.isAlive = function() {
          return this.hp > 0;
@@ -9,15 +10,15 @@ function Character(name, hp, attackPower){
 
      this.attack = function(defender) {
         this.hp -= defender.attackPower;
+        defender.hp -= this.attackPower;
         if (!this.isAlive()) {
             return;
         }
 
-        defender.hp -= this.attackPower;
-        this.attackPower += 8;
+        this.attackPower += this.initialPower;
         if (!defender.isAlive()) {
-            this.attackPower += 8;
-        }
+            this.attackPower += this.initialPower;
+        } 
      }
 
      this.getHp = function() {
@@ -37,15 +38,15 @@ var game =
     myCharacter : null,
     defender : null,
 
-    selectMyCharacter : function(character) {
+    setMyCharacter : function(character) {
         this.myCharacter = character;
     },
 
-    selectDefender : function(character) {
+    setDefender : function(character) {
         this.defender = character;
     },
 
-    fight : function(character) {
+    fight : function() {
         this.myCharacter.attack(this.defender);
     },
 

@@ -19,31 +19,31 @@
           <div class="row">
                 <div class="card border-success">
                     <div class="card-header">Darth Vader</div>
-                        <div class="card-body">
-                            <button id="btn-darth-vader" name="Darth Vader" class="btn-character"></button>
-                        </div>
+                    <div class="card-body">
+                        <button id="btn-darth-vader" name="Darth Vader" class="btn-character"></button>
+                    </div>
                     <div id="hp-darth-vader" class="card-footer">Footer</div>
                 </div>
                 <div id="card-kenobi" class="card border-success">
-                        <div class="card-header">Kenobi</div>
-                            <div class="card-body">
-                                <button id="btn-kenobi" name="Kenobi" class="btn-character"></button>
-                            </div>
-                        <div id="hp-kenobi" class="card-footer">Footer</div>
+                    <div class="card-header">Kenobi</div>
+                    <div class="card-body">
+                        <button id="btn-kenobi" name="Kenobi" class="btn-character"></button>
+                    </div>
+                    <div id="hp-kenobi" class="card-footer">Footer</div>
                 </div>
                 <div id="card-princess-leia" class="card border-success">
-                        <div class="card-header">Princess Leia</div>
-                            <div class="card-body">
-                                <button id="btn-princess-leia" name="Princess Leia" class="btn-character"></button>
-                            </div>
-                        <div id="hp-princess-leia" class="card-footer">Footer</div>
+                    <div class="card-header">Princess Leia</div>
+                    <div class="card-body">
+                        <button id="btn-princess-leia" name="Princess Leia" class="btn-character"></button>
+                    </div>
+                    <div id="hp-princess-leia" class="card-footer">Footer</div>
                 </div>
                 <div id="card-yoda" class="card border-success">
-                        <div class="card-header">Yoda</div>
-                            <div class="card-body">
-                                <button id="btn-yoda" name="Yoda" class="btn-character"></button>
-                            </div>
-                        <div id="hp-yoda" class="card-footer">Footer</div>
+                    <div class="card-header">Yoda</div>
+                    <div class="card-body">
+                        <button id="btn-yoda" name="Yoda" class="btn-character"></button>
+                    </div>
+                    <div id="hp-yoda" class="card-footer">Footer</div>
                 </div>
           </div>
 
@@ -58,19 +58,21 @@
           <div class="row">
               <div class="col-12"><h4>Fight Section</h4></div>
               <div class="col-12">
-                    <button class="btn-attack" onClick="choose(1)">Attack</button>
+                    <button class="btn-attack">Attack</button>
               </div>     
           </div>
 
-          <div id="row-defender"class="row">
+          <div id="row-defender" class="row">
               <div class="col-12"><h4>Defender</h4></div>
           </div>
 
           <div class="row">
-              <div class="col-12">
-                  <p id="damage-points-you">damage-points-you</p>
-                  <p id="damage-points-defender">damage-points-defender</p>
+              <div id="message" class="col-12">
+                  <p id="text-1"></p>
+                  <p id="text-2"></p>
+                  <button id="btn-restart" class="btn-restart">Restart</button>
               </div>
+
           </div>
               
       </div>
@@ -92,43 +94,95 @@
             button.parent().parent().appendTo("#row-your-character");
 
             if (button.attr('name') != "Darth Vader") {
-                $("#hp-darth-vader").parent().parent().appendTo("#row-enemies");
+                $("#btn-darth-vader").parent().parent().appendTo("#row-enemies");
             }
 
             if (button.attr('name') != "Kenobi") {
-                $("#hp-kenobi").parent().parent().appendTo("#row-enemies");
+                $("#btn-kenobi").parent().parent().appendTo("#row-enemies");
             }
 
             if (button.attr('name') != "Princess Leia") {
-                $("#hp-princess-leia").parent().parent().appendTo("#row-enemies");
+                $("#btn-princess-leia").parent().parent().appendTo("#row-enemies");
             }
 
             if (button.attr('name') != "Yoda") {
-                $("#hp-yoda").parent().parent().appendTo("#row-enemies");
+                $("#btn-yoda").parent().parent().appendTo("#row-enemies");
             }
 
             var myCharacter = game.findCharacter(button.attr('name'));
-            game.selectMyCharacter(myCharacter);
+            game.setMyCharacter(myCharacter);
         }
 
         function selectDefender(button) {
             button.parent().parent().appendTo("#row-defender");
             var defender = game.findCharacter(button.attr('name'));
-            game.selectDefender(defender);
+            game.setDefender(defender);
         }
 
          $(".btn-character").on("click", function() {
             if (game.myCharacter === null) {
                 selectMyCharacter($(this));
-            } else if ($(this).attr('name') != game.myCharacter.name) {
+            } else if ($(this).attr('name') != game.myCharacter.name && game.defender === null) {
                 selectDefender($(this));
+                $("#text-2").css({display: "none"});
             }
 
             updateUi();
          })
+         
+         $(".btn-attack").on("click", function() {
+            if(game.defender === null)
+            {
+                $("#text-2").text("No enemy here.");
+                $("#text-2").css({display: "block"});
+                return;
+            }
 
+            $("#text-1").text("You attacked "+ game.defender.name + " for "+ game.myCharacter.attackPower + " damage.");
+            $("#text-2").text(game.defender.name + " attacked you back for "+ game.defender.attackPower + " damage.");
 
+            game.fight();
+            
+            if(!game.defender.isAlive())
+            {
+                if($("#row-enemies").children().length === 1)
+                {
+                    updateUi();
+                    $("#text-2").text("You Won !!! ... Game Over !!!");
+                    $("#btn-restart").css({display: "block"});
+                    $(".btn-attack").addClass('disabled');
+                }
+                else{
+                    $("#text-2").text("You have defeated " + game.defender.name + ", you can choose to fight another enemy.");
+                    game.defender = null;
+                }
 
+                $("#row-defender > .card").css({display: "none"});
+                $("#text-2").css({display: "block"});
+                $("#text-1").css({display: "none"});
+            }
+            else if(!game.myCharacter.isAlive())
+            {
+                updateUi();
+                $("#text-2").text("You have been defated ... Game Over !!!");
+                $("#text-2").css({display: "block"});
+                $("#text-1").css({display: "none"});
+                $("#btn-restart").css({display: "block"});
+                $(".btn-attack").addClass('disabled');
+            }
+            else
+            {
+                $("#text-1").css({display: "block"});
+                $("#text-2").css({display: "block"});
+                updateUi();
+            }
+         })
+
+         $(".btn-restart").on("click", function() {
+            location.reload();
+         })
+
+         updateUi();
         
       </script>
   </body>

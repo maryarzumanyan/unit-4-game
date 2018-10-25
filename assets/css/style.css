@@ -4,13 +4,16 @@ body{
     background-size: 100%;
     color: black;
 }
+
 .row{
     overflow: auto;
     padding-top: 10px;
 }
+
 .card{
     max-width: 12rem;
 }
+
 .card-header{
     padding: 0px; 
     text-align: center; 
@@ -43,16 +46,30 @@ body{
 #btn-darth-vader{
     background-image: url(../images/DarthVader.jpg);
 }
+
 #btn-kenobi{
     background-image: url(../images/Kenobi.jpg);
 }
+
 #btn-princess-leia{
     background-image: url(../images/PrincessLeia.jpg);
 }
+
 #btn-yoda{
     background-image: url(../images/Yoda.jpg);
 }
 
 p{
-    color: yellowgreen;
+    color: white;
+    display: none;
+    font-weight: bold;
 }
+
+.btn-restart{
+    display: none;
+}
+
+.disabled{
+    pointer-events: none;
+  }
+  
